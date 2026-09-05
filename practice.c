@@ -1,28 +1,29 @@
 #include <stdio.h>
 
-int main () {
-
-int numOfDrills;
-
-printf("How many drills will your practice have?");
-scanf("%d", &numOfDrills);
-
-struct drills [numOfDrills];
-  
-  
 struct Drill {
-    char name [50];
+    char name[50];
     double plannedTime;
     double minTime;
     double maxTime;
     int rank;
-    duble actualTime;
+    double actualTime;
 };
-  
-  for (int i = 0; i <= numOfDrills, i++) {
-    printf("Drill %d\n", i);
-    pritf ("What is the drill name?");
-  } 
-  
-return 0;
+
+int main(void) {
+    int numOfDrills;
+
+    printf("How many drills will your practice have? ");
+    scanf("%d", &numOfDrills);
+
+    struct Drill drills[numOfDrills];
+
+    for (int i = 0; i < numOfDrills; i++) {
+        printf("Drill %d\n", i + 1);
+        printf("What is the drill name? ");
+        scanf("%49s\n", drills[i].name);
+        printf("What is the planned time for this drill? ");
+        scanf("%49s", drills[i].name);
+    }
+
+    return 0;
 }
