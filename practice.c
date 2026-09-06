@@ -40,6 +40,17 @@ scanf("%lf", &drills[i].plannedTime);
 printf("What is the minimum amount of time that can be allotted for this drill? ");
 scanf("%lf", &drills[i].minTime);
 
+while (drills[i].minTime > drills[i].plannedTime || drills[i].minTime < 0) {
+printf("Error! Minimum time must be between 0 and the planned time.\n");
+printf("What is the minimum amount of time that can be allotted for this drill? ");
+scanf("%lf", &drills[i].minTime);
+}
+
+printf("What is the maximum amount of time that can be allotted for this drill? ");
+scanf("%lf", &drills[i].maxTime);
+
+while (drills[i].maxTime < drills[i].plannedTime) {
+printf("Error! Maximum time must be equal to or greater than the planned time.\n");
 printf("What is the maximum amount of time that can be allotted for this drill? ");
 scanf("%lf", &drills[i].maxTime);
 }
