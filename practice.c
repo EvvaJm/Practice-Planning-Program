@@ -22,8 +22,20 @@ int main(void) {
         printf("What is the drill name? ");
         scanf("%49[^\n]", drills[i].name);
         printf("What is the planned time for this drill? ");
-        scanf("%49s", drills[i].name);
+        scanf("%49s", drills[i].plannedTime);
+        printf("What is the minimum amount of time that can be altted for this drill?");
+        scanf("%49s", drills[i].minTime);
+        printf("What is the maximum amount of time that can be altted for this drill?");
+        scanf("%49s", drills[i].maxTime);
     }
+
+    for (int i = 0; i < numOfDrills; i++) {
+
+    
+        
+    }
+    
+    
 
     return 0;
 }
