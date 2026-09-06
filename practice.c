@@ -178,13 +178,15 @@ scanf("%lf", &drills[i].actualTime);
 double timeDifference = drills[i].actualTime - drills[i].plannedTime;
 
 if (timeDifference < 0) {
+timeBanked += -timeDifference;
+
 printf("%s finished %.2f minutes early.\n",
 drills[i].name, -timeDifference);
 
-// gives extra time to the highest priority remaining drill
-double extraTime = -timeDifference;
+printf("Time banked: %.2f minutes.\n", timeBanked);
 
-while (extraTime > 0) {
+// gives extra time to the highest priority remaining drill
+while (timeBanked > 0) {
 int highestPriority = -1;
 
 for (int j = i + 1; j < numOfDrills; j++) {
@@ -197,21 +199,20 @@ highestPriority = j;
 }
 
 if (highestPriority == -1) {
-printf("No remaining drill can use the extra time.\n");
 break;
 }
 
 double availableTime = drills[highestPriority].maxTime -
 drills[highestPriority].plannedTime;
 
-if (availableTime >= extraTime) {
-drills[highestPriority].plannedTime += extraTime;
-extraTime = 0;
+if (availableTime >= timeBanked) {
+drills[highestPriority].plannedTime += timeBanked;
+timeBanked = 0;
 }
 else {
 drills[highestPriority].plannedTime =
 drills[highestPriority].maxTime;
-extraTime -= availableTime;
+timeBanked -= availableTime;
 }
 
 printf("%s now has %.2f minutes planned.\n",
@@ -221,13 +222,15 @@ drills[highestPriority].plannedTime);
 }
 
 else if (timeDifference > 0) {
+timeBanked -= timeDifference;
+
 printf("%s took %.2f minutes longer than planned.\n",
 drills[i].name, timeDifference);
 
-// takes time away from the lowest priority remaining drill
-double timeToRemove = timeDifference;
+printf("Time banked: %.2f minutes.\n", timeBanked);
 
-while (timeToRemove > 0) {
+// takes time away from the lowest priority remaining drill
+while (timeBanked < 0) {
 int lowestPriority = -1;
 
 for (int j = i + 1; j < numOfDrills; j++) {
@@ -240,21 +243,20 @@ lowestPriority = j;
 }
 
 if (lowestPriority == -1) {
-printf("No remaining drill can lose enough time.\n");
 break;
 }
 
 double removableTime = drills[lowestPriority].plannedTime -
 drills[lowestPriority].minTime;
 
-if (removableTime >= timeToRemove) {
-drills[lowestPriority].plannedTime -= timeToRemove;
-timeToRemove = 0;
+if (removableTime >= -timeBanked) {
+drills[lowestPriority].plannedTime += timeBanked;
+timeBanked = 0;
 }
 else {
 drills[lowestPriority].plannedTime =
 drills[lowestPriority].minTime;
-timeToRemove -= removableTime;
+timeBanked += removableTime;
 }
 
 printf("%s now has %.2f minutes planned.\n",
@@ -279,6 +281,8 @@ drills[i].name,
 drills[i].plannedTime,
 drills[i].rank);
 }
+
+printf("\nTime remaining in bank: %.2f minutes.\n", timeBanked);
 
 return 0;
 }
