@@ -19,6 +19,7 @@ double actualTime;
 
 int main(void) {
 int numOfDrills;
+double timeBanked = 0;
 
 printf("How many drills will your practice have? ");
 scanf("%d", &numOfDrills);
