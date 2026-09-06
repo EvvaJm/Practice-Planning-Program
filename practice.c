@@ -44,11 +44,12 @@ printf("What is the maximum amount of time that can be allotted for this drill? 
 scanf("%lf", &drills[i].maxTime);
 }
 
-// collects the rank of each drill from the user 
+// sets each drill rank to zero
 for (int i = 0; i < numOfDrills; i++) {
 drills[i].rank = 0;
 }
 
+// prints each drill entered in order 
 for (int i = 0; i < numOfDrills; i++) {
 printf("\nYour drills:\n");
 
@@ -65,6 +66,7 @@ printf("\n");
 int rank;
 int validRank = 0;
 
+// collects the importance of each drill 
 while (validRank == 0) {
 printf("\nWhat is the importance/rank of %s? (1-%d): ",
 drills[i].name, numOfDrills);
@@ -84,6 +86,7 @@ drillWithRank = j;
 }
 }
 
+// prevents 2 drills from being given the same rank
 if (drillWithRank == -1) {
 drills[i].rank = rank;
 validRank = 1;
@@ -94,6 +97,7 @@ rank, drills[drillWithRank].name);
 
 int choice;
 
+// if 2 drills are given the same rank this lets the user choose what to do 
 printf("Would you like to change %s's ranking?\n",
 drills[drillWithRank].name);
 printf("1. Yes\n");
@@ -156,6 +160,7 @@ drills[j] = temp;
 }
 }
 
+// prints the final order of the drills 
 printf("\nFinal practice order:\n");
 
 for (int i = 0; i < numOfDrills; i++) {
