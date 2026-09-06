@@ -5,7 +5,6 @@ adjusts the time of the remaining drills in a practice based on the actual time 
 prevent coaches from being left with extra time at the end of practices and not knowing what to do, or from having no time at the end of a practice
 to complete their last drill. */
 
-
 #include <stdio.h>
 
 // stores the information for each drill
@@ -163,14 +162,6 @@ drills[i].name);
 }
 }
 }
-}
-
-// prints the final practice order without changing the order based on rank
-printf("\nFinal practice order:\n");
-
-for (int i = 0; i < numOfDrills; i++) {
-printf("%d. %s - Rank %d\n", i + 1, drills[i].name, drills[i].rank);
-}
 
 // collects the actual time for each drill
 for (int i = 0; i < numOfDrills; i++) {
@@ -186,14 +177,106 @@ scanf("%lf", &drills[i].actualTime);
 double timeDifference = drills[i].actualTime - drills[i].plannedTime;
 
 if (timeDifference < 0) {
-printf("%s finished %.2f minutes early.\n", drills[i].name, -timeDifference);
+printf("%s finished %.2f minutes early.\n",
+drills[i].name, -timeDifference);
+
+// gives extra time to the highest priority remaining drill
+double extraTime = -timeDifference;
+
+while (extraTime > 0) {
+int highestPriority = -1;
+
+for (int j = i + 1; j < numOfDrills; j++) {
+if (drills[j].plannedTime < drills[j].maxTime) {
+if (highestPriority == -1 ||
+drills[j].rank < drills[highestPriority].rank) {
+highestPriority = j;
 }
-else if (timeDifference > 0) {
-printf("%s took %.2f minutes longer than planned.\n", drills[i].name, timeDifference);
+}
+}
+
+if (highestPriority == -1) {
+printf("No remaining drill can use the extra time.\n");
+break;
+}
+
+double availableTime = drills[highestPriority].maxTime -
+drills[highestPriority].plannedTime;
+
+if (availableTime >= extraTime) {
+drills[highestPriority].plannedTime += extraTime;
+extraTime = 0;
 }
 else {
-printf("%s finished exactly on time.\n", drills[i].name);
+drills[highestPriority].plannedTime =
+drills[highestPriority].maxTime;
+extraTime -= availableTime;
 }
+
+printf("%s now has %.2f minutes planned.\n",
+drills[highestPriority].name,
+drills[highestPriority].plannedTime);
+}
+}
+
+else if (timeDifference > 0) {
+printf("%s took %.2f minutes longer than planned.\n",
+drills[i].name, timeDifference);
+
+// takes time away from the lowest priority remaining drill
+double timeToRemove = timeDifference;
+
+while (timeToRemove > 0) {
+int lowestPriority = -1;
+
+for (int j = i + 1; j < numOfDrills; j++) {
+if (drills[j].plannedTime > drills[j].minTime) {
+if (lowestPriority == -1 ||
+drills[j].rank > drills[lowestPriority].rank) {
+lowestPriority = j;
+}
+}
+}
+
+if (lowestPriority == -1) {
+printf("No remaining drill can lose enough time.\n");
+break;
+}
+
+double removableTime = drills[lowestPriority].plannedTime -
+drills[lowestPriority].minTime;
+
+if (removableTime >= timeToRemove) {
+drills[lowestPriority].plannedTime -= timeToRemove;
+timeToRemove = 0;
+}
+else {
+drills[lowestPriority].plannedTime =
+drills[lowestPriority].minTime;
+timeToRemove -= removableTime;
+}
+
+printf("%s now has %.2f minutes planned.\n",
+drills[lowestPriority].name,
+drills[lowestPriority].plannedTime);
+}
+}
+
+else {
+printf("%s finished exactly on time.\n",
+drills[i].name);
+}
+}
+
+// prints the final practice order and adjusted times
+printf("\nFinal practice plan:\n");
+
+for (int i = 0; i < numOfDrills; i++) {
+printf("%d. %s - %.2f minutes - Rank %d\n",
+i + 1,
+drills[i].name,
+drills[i].plannedTime,
+drills[i].rank);
 }
 
 return 0;
