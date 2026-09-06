@@ -1,6 +1,6 @@
 // This is being used to plan and test the logic for an app I'm building 
 
-/* This is a mock design for a program designed for coaches to be able to enter a practice plan and run the practice. The program automatically  
+/* This is a mock design for a program designed for coaches to be able to enter a practice plan and run the practice. The program automatically
 adjusts the time of the remaining drills in a practice based on the actual time it takes to complete each drill before it. This will help
 prevent coaches from being left with extra time at the end of practices and not knowing what to do, or from having no time at the end of a practice
 to complete their last drill. */
@@ -8,7 +8,7 @@ to complete their last drill. */
 
 #include <stdio.h>
 
-// stores the information for each drill 
+// stores the information for each drill
 struct Drill {
 char name[50];
 double plannedTime;
@@ -24,8 +24,7 @@ int numOfDrills;
 printf("How many drills will your practice have? ");
 scanf("%d", &numOfDrills);
 
-
-// Loops through the array of drills and collects the information for each drill 
+// Loops through the array of drills and collects the information for each drill
 struct Drill drills[numOfDrills];
 
 for (int i = 0; i < numOfDrills; i++) {
@@ -37,6 +36,12 @@ scanf(" %49[^\n]", drills[i].name);
 printf("What is the planned time for this drill? ");
 scanf("%lf", &drills[i].plannedTime);
 
+while (drills[i].plannedTime < 0) {
+printf("Error! Planned time cannot be negative.\n");
+printf("What is the planned time for this drill? ");
+scanf("%lf", &drills[i].plannedTime);
+}
+
 printf("What is the minimum amount of time that can be allotted for this drill? ");
 scanf("%lf", &drills[i].minTime);
 
@@ -45,7 +50,7 @@ printf("Error! Minimum time must be between 0 and the planned time.\n");
 printf("What is the minimum amount of time that can be allotted for this drill? ");
 scanf("%lf", &drills[i].minTime);
 }
-}
+
 printf("What is the maximum amount of time that can be allotted for this drill? ");
 scanf("%lf", &drills[i].maxTime);
 
@@ -54,13 +59,14 @@ printf("Error! Maximum time must be equal to or greater than the planned time.\n
 printf("What is the maximum amount of time that can be allotted for this drill? ");
 scanf("%lf", &drills[i].maxTime);
 }
+}
 
 // sets each drill rank to zero
 for (int i = 0; i < numOfDrills; i++) {
 drills[i].rank = 0;
 }
 
-// prints each drill entered in order 
+// prints each drill entered in order
 for (int i = 0; i < numOfDrills; i++) {
 printf("\nYour drills:\n");
 
@@ -77,7 +83,7 @@ printf("\n");
 int rank;
 int validRank = 0;
 
-// collects the importance of each drill 
+// collects the importance of each drill
 while (validRank == 0) {
 printf("\nWhat is the importance/rank of %s? (1-%d): ",
 drills[i].name, numOfDrills);
@@ -108,7 +114,7 @@ rank, drills[drillWithRank].name);
 
 int choice;
 
-// if 2 drills are given the same rank this lets the user choose what to do 
+// if 2 drills are given the same rank this lets the user choose what to do
 printf("Would you like to change %s's ranking?\n",
 drills[drillWithRank].name);
 printf("1. Yes\n");
@@ -159,23 +165,11 @@ drills[i].name);
 }
 }
 
-struct Drill temp;
-
-for (int i = 0; i < numOfDrills - 1; i++) {
-for (int j = i + 1; j < numOfDrills; j++) {
-if (drills[j].rank < drills[i].rank) {
-temp = drills[i];
-drills[i] = drills[j];
-drills[j] = temp;
-}
-}
-}
-
-// prints the final order of the drills 
+// prints the final practice order without changing the order based on rank
 printf("\nFinal practice order:\n");
 
 for (int i = 0; i < numOfDrills; i++) {
-printf("%d. %s\n", i + 1, drills[i].name);
+printf("%d. %s - Rank %d\n", i + 1, drills[i].name, drills[i].rank);
 }
 
 return 0;
