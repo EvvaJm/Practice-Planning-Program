@@ -20,7 +20,7 @@ int main(void) {
     for (int i = 0; i < numOfDrills; i++) {
         printf("Drill %d\n", i + 1);
         printf("What is the drill name? ");
-        scanf("%49s\n", drills[i].name);
+        scanf("%49[^\n]", drills[i].name);
         printf("What is the planned time for this drill? ");
         scanf("%49s", drills[i].name);
     }
