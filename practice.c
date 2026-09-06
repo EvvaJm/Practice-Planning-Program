@@ -172,5 +172,29 @@ for (int i = 0; i < numOfDrills; i++) {
 printf("%d. %s - Rank %d\n", i + 1, drills[i].name, drills[i].rank);
 }
 
+// collects the actual time for each drill
+for (int i = 0; i < numOfDrills; i++) {
+printf("\nHow long did %s actually take? ", drills[i].name);
+scanf("%lf", &drills[i].actualTime);
+
+while (drills[i].actualTime < 0) {
+printf("Error! Actual time cannot be negative.\n");
+printf("How long did %s actually take? ", drills[i].name);
+scanf("%lf", &drills[i].actualTime);
+}
+
+double timeDifference = drills[i].actualTime - drills[i].plannedTime;
+
+if (timeDifference < 0) {
+printf("%s finished %.2f minutes early.\n", drills[i].name, -timeDifference);
+}
+else if (timeDifference > 0) {
+printf("%s took %.2f minutes longer than planned.\n", drills[i].name, timeDifference);
+}
+else {
+printf("%s finished exactly on time.\n", drills[i].name);
+}
+}
+
 return 0;
 }
